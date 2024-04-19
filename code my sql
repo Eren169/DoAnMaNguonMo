@@ -52,7 +52,7 @@ CREATE TABLE XuatHang (
   tong_tien NUMERIC(10,2) NOT NULL,
   trang_thai TINYINT(1) NOT NULL DEFAULT 1,
   nhan_vien_xuat VARCHAR(255) NOT NULL,
- donvi ghi_chu TEXT
+  ghi_chu TEXT
 );
 
 use QLKho;
