@@ -14,7 +14,8 @@ CREATE TABLE NhanVien (
   IDNhanVien INT PRIMARY KEY AUTO_INCREMENT,
   TenNhanVien VARCHAR(255) NOT NULL,
   DiaChi VARCHAR(255),
-  SoDienThoai VARCHAR(255)
+  SoDienThoai VARCHAR(255),
+  Password VARCHAR(255) NOT NULL
 );
 
 use QuanLiKho;
