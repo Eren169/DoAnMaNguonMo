@@ -1,67 +1,61 @@
-create database QLkho;
-use QLKho;
+create database QuanLiKho;
+
+use QuanLiKho;
 CREATE TABLE HangHoa (
-  id INT PRIMARY KEY AUTO_INCREMENT,
-  ma_hang_hoa VARCHAR(255) NOT NULL UNIQUE,
-  ten_hang_hoa VARCHAR(255) NOT NULL,
-  don_vi_tinh VARCHAR(255) NOT NULL,
-  gia_nhap NUMERIC(10,2) NOT NULL,
-  gia_ban NUMERIC(10,2) NOT NULL,
-  mo_ta TEXT,
-  FOREIGN KEY (don_vi_tinh) REFERENCES DonVi(ma_don_vi)
+  IDHangHoa INT PRIMARY KEY AUTO_INCREMENT,
+  TenHangHoa VARCHAR(255) NOT NULL,
+  MoTa VARCHAR(255),
+  GiaBan DECIMAL(10,2) NOT NULL,
+  SoLuongTonKho INT NOT NULL
 );
 
-use QLKho;
-CREATE TABLE DonVi (
-  id INT PRIMARY KEY AUTO_INCREMENT,
-  ma_don_vi VARCHAR(255) NOT NULL UNIQUE,
-  ten_don_vi VARCHAR(255) NOT NULL,
-  mo_ta TEXT
+use QuanLiKho;
+CREATE TABLE NhanVien (
+  IDNhanVien INT PRIMARY KEY AUTO_INCREMENT,
+  TenNhanVien VARCHAR(255) NOT NULL,
+  DiaChi VARCHAR(255),
+  SoDienThoai VARCHAR(255)
 );
 
-use QLKho;
-CREATE TABLE NhaCungCap (
-  id INT PRIMARY KEY AUTO_INCREMENT,
-  ma_nha_cung_cap VARCHAR(255) NOT NULL UNIQUE,
-  ten_nha_cung_cap VARCHAR(255) NOT NULL,
-  dia_chi VARCHAR(255) NOT NULL,
-  so_dien_thoai VARCHAR(255) NOT NULL,
-  email VARCHAR(255),
-  ghi_chu TEXT
-);
-
-use QLKho;
+use QuanLiKho;
 CREATE TABLE NhapHang (
-  id INT PRIMARY KEY AUTO_INCREMENT,
-  ma_phieu_nhap VARCHAR(255) NOT NULL UNIQUE,
-  ngay_nhap DATE NOT NULL,
-  nha_cung_cap VARCHAR(255) NOT NULL,
-  tong_tien NUMERIC(10,2) NOT NULL,
-  trang_thai TINYINT(1) NOT NULL DEFAULT 1,
-  nhan_vien_nhap VARCHAR(255) NOT NULL,
-  ghi_chu TEXT,
-  FOREIGN KEY (nha_cung_cap) REFERENCES NhaCungCap(ma_nha_cung_cap)
+  IDNhapHang INT PRIMARY KEY AUTO_INCREMENT,
+  Ngay DATE NOT NULL,
+  IDDonVi INT NOT NULL,
+  IDHangHoa INT NOT NULL,
+  IDNCC INT NOT NULL,
+  SoLuong INT NOT NULL,
+  TongTien DECIMAL(10,2) NOT NULL,
+  CONSTRAINT fk_DonVi FOREIGN KEY (IDDonVi) REFERENCES DonVi(IDDonVi),
+  CONSTRAINT fk_HangHoa_Nhap FOREIGN KEY (IDHangHoa) REFERENCES HangHoa(IDHangHoa),
+  CONSTRAINT fk_NhaCungCap FOREIGN KEY (IDNCC) REFERENCES NhaCungCap(IDNCC)
+  );
+
+use QuanLiKho;
+CREATE TABLE NhaCungCap (
+  IDNCC INT PRIMARY KEY AUTO_INCREMENT,
+  TenNhaCungCap VARCHAR(255) NOT NULL,
+  DiaChi VARCHAR(255),
+  SoDienThoai VARCHAR(255)
 );
 
-use QLKho;
+use QuanLiKho;
 CREATE TABLE XuatHang (
-  id INT PRIMARY KEY AUTO_INCREMENT,
-  ma_phieu_xuat VARCHAR(255) NOT NULL UNIQUE,
-  ngay_xuat DATE NOT NULL,
-  khach_hang VARCHAR(255) NOT NULL,
-  tong_tien NUMERIC(10,2) NOT NULL,
-  trang_thai TINYINT(1) NOT NULL DEFAULT 1,
-  nhan_vien_xuat VARCHAR(255) NOT NULL,
-  ghi_chu TEXT
+  IDXuatHang INT PRIMARY KEY AUTO_INCREMENT,
+  NgayXuat DATE NOT NULL,
+  IDKhachHang INT NOT NULL,
+  IDNhanVien INT NOT NULL,
+  IDHangHoa INT NOT NULL,
+  SoLuong INT NOT NULL,
+  GiaBan DECIMAL(10,2) NOT NULL,
+  ThanhTien DECIMAL(10,2) NOT NULL,
+  CONSTRAINT fk_NhanVien FOREIGN KEY (IDNhanVien) REFERENCES NhanVien(IDNhanVien),
+  CONSTRAINT fk_HangHoa_Xuat FOREIGN KEY (IDHangHoa) REFERENCES HangHoa(IDHangHoa)
 );
-
-use QLKho;
-CREATE TABLE TonKho (
-  id INT PRIMARY KEY AUTO_INCREMENT,
-  ma_hang_hoa VARCHAR(255) NOT NULL,
-  so_luong_ton INT NOT NULL DEFAULT 0,
-  vi_tri_luu_tru VARCHAR(255) NOT NULL,
-  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  FOREIGN KEY (ma_hang_hoa) REFERENCES HangHoa(ma_hang_hoa)
+use QuanLiKho;
+CREATE TABLE DonVi (
+  IDDonVi INT PRIMARY KEY AUTO_INCREMENT,
+  TenDonVi VARCHAR(255) NOT NULL,
+  SoDienThoai VARCHAR(255),
+  DiaChi VARCHAR(255)
 );
